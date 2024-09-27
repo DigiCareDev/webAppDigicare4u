@@ -10,7 +10,7 @@ const TableOne = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getJwtToken } = useAuth();
-  const token = getJwtToken();
+  // const token = getJwtToken();
 
   useEffect(() => {
     const fetchMembers = async () => {

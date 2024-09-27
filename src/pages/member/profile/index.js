@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "../../../component/Layouts/DefaultLayout";
-import GoogleMaps from "../../../component/GoogleMap/googleMps";
-import MemberCard from "../../../component/MemberCard/memberCard";
-import Tabs from "../../../component/Tabs/tabs";
 import { useRouter } from "next/router";
-import { getMemberProfile } from "../../../controllers/member/profile";
-import useAuth from "../../../hooks/useAuth";
+import { getUserProfile } from "../../../controllers/profile";
+import Profile from "../../../component/profile";
 
 const Dashboard = () => {
   const router = useRouter();
-  const { tokenVilidity } = useAuth()
-  // tokenVilidity(router, 'member')
   const [profileData, setProfileData] = useState(null); // State to hold the profile data
   const [loading, setLoading] = useState(true); // State for loading status
 
   const fetchProfile = async () => {
     try {
-      const response = await getMemberProfile()
-      console.log('resps --------<', response);
+      const response = await getUserProfile()
 
       setProfileData(response?.data?.user); // Assuming response contains data
     } catch (error) {
@@ -33,20 +27,20 @@ const Dashboard = () => {
     fetchProfile(); // Call the async function
 
   }, []); // Add dependencies like router and tokenDecoded
-  // console.log('final --------', profileData);
+  console.log('final --------', profileData);
 
   return (
     <DefaultLayout
-      isMember={true}
       profile={profileData}
     >
       {loading ? (
         <p>Loading profile...</p>
       ) : profileData ? (
         <>
-          <GoogleMaps />
-          <Tabs />
-          <MemberCard />
+          <Profile
+            profile={profileData}
+
+          />
         </>
       ) : (
         <p>No profile data available</p>

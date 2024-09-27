@@ -1,25 +1,24 @@
-import { devURL } from "../../contsants/endPoints";
+import { devURL } from "../../../contsants/endPoints";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
 
-export const handleLogin = (payload,event,router) => {
+export const login = (payload,event,router) => {
     event.preventDefault();
     console.log('====================================');
     console.log(payload.email);
     console.log('====================================');
 
-    axios.post(`${devURL}/admin/login`, payload)
+    axios.post(`${devURL}/member/auth/login`, payload)
     .then((response) => {
-        sessionStorage.setItem('userToken', response?.data?.token);
-        console.log(response?.data)
+        sessionStorage.setItem('token', response?.data?.token);
         Swal.fire({
             title: "Login Successful!",
             text: response?.data?.message,
             icon: "success"
         });
-        router.push('/dashboard');
+        router.push('/member/dashboard');
     })
     .catch((err) => {
         console.log(err,'-------------- err');

@@ -1,42 +1,77 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import SignIn from '../../component/GoogleSignup';
+import SignIn from '../../../component/GoogleSignup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
-const handleuserLogin = async (payload, e, router, setLoading) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-        const response = await axios.post('http://192.168.0.172:8000/member/auth/login', {
-            email: payload.email,
-            password: payload.password
-        });
-
-        const { token } = response.data;
-        sessionStorage.setItem('token', token);
-        router.push('/dashboard');
-    } catch (error) {
-        console.error('Login failed', error);
-        Swal.fire({
-            title: "Error",
-            text: error.response?.data?.message,
-            icon: "error"
-        });
-    } finally {
-        setLoading(false);
-    }
-};
+import { devURL } from '../../../../contsants/endPoints';
+import useAuth from '../../../hooks/useAuth';
 
 
 const Login = () => {
     const router = useRouter();
+    //=-=========================
+    const { tokenVilidity } = useAuth()
+    tokenVilidity(router, 'user')
+    //=-=========================
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState(''); // For Sign Up
     const [phone, setPhone] = useState(''); // For Sign Up
     const [isLogin, setIsLogin] = useState(true); // Toggle between login and sign-up
     const [loading, setLoading] = useState(false);
+    //===================================
+    const handleuserLogin = async (payload, e, router, setLoading) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post(`${devURL}/user/auth/login`, {
+                email: payload.email,
+                password: payload.password
+            });
+
+            const { token } = response?.data;
+            console.log('========= respopnse --->', token)
+            sessionStorage.setItem('token', token);
+            router.push('/user/dashboard');
+        } catch (error) {
+            console.error('Login failed', error);
+            Swal.fire({
+                title: "Error",
+                text: error.response?.data?.message,
+                icon: "error"
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleuserSignup = async (payload, e, router, setLoading) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post('http://192.168.0.172:8000/user/auth/signup', {
+                name: payload.name,
+                email: payload.email,
+                password: payload.password,
+                mobile: payload.phone
+            });
+
+            const { token } = response.data;
+            localStorage.setItem('token', token);
+            router.push('/dashboard');
+        } catch (error) {
+            console.error('Signup failed', error);
+            Swal.fire({
+                title: "Error",
+                text: error.response?.data?.message || "Signup failed, please try again.",
+                icon: "error"
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const handleSubmit = (e) => {
         const payload = { email, password, name, phone };
@@ -47,7 +82,7 @@ const Login = () => {
             handleuserSignup(payload, e, router, setLoading); // Use the handleuserSignup function
         }
     };
-
+    //=================================
     return (
         <>
             <div className="container">

@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import DefaultLayout from "../../../component/Layouts/DefaultLayout";
-import GoogleMaps from "../../../component/GoogleMap/googleMps";
-import MemberCard from "../../../component/MemberCard/memberCard";
-import Tabs from "../../../component/Tabs/tabs";
-import { useRouter } from "next/router";
-import { getMemberProfile } from "../../../controllers/member/profile";
-import useAuth from "../../../hooks/useAuth";
+import DefaultLayout from "../../../../component/Layouts/DefaultLayout";
 
-const Dashboard = () => {
-  const router = useRouter();
-  const { tokenVilidity } = useAuth()
-  // tokenVilidity(router, 'member')
+import { useRouter } from "next/router";
+import { getUserMembers } from "../../../../controllers/user/member";
+import { getUserProfile } from "../../../../controllers/user/profile";
+import { Table } from "../../../../component/table";
+
+const MemberList = () => {
+
   const [profileData, setProfileData] = useState(null); // State to hold the profile data
+  const [userMemberData, setUserMemberData] = useState(null); // State to hold the profile data
   const [loading, setLoading] = useState(true); // State for loading status
 
   const fetchProfile = async () => {
     try {
-      const response = await getMemberProfile()
-      console.log('resps --------<', response);
+      const response = await getUserProfile()
 
       setProfileData(response?.data?.user); // Assuming response contains data
     } catch (error) {
@@ -27,27 +24,39 @@ const Dashboard = () => {
     }
   };
 
+
+  const fetchUserMemberData = async () => {
+    try {
+      const response = await getUserMembers()
+
+      setUserMemberData(response?.data?.members); // Assuming response contains data
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     // Define an async function inside useEffect to handle async/await
 
     fetchProfile(); // Call the async function
-
+    fetchUserMemberData()
   }, []); // Add dependencies like router and tokenDecoded
   // console.log('final --------', profileData);
 
   return (
     <DefaultLayout
-      isMember={true}
       profile={profileData}
     >
       {loading ? (
         <p>Loading profile...</p>
       ) : profileData ? (
-        <>
-          <GoogleMaps />
-          <Tabs />
-          <MemberCard />
-        </>
+        <Table
+          userMemberData={userMemberData}
+
+        />
       ) : (
         <p>No profile data available</p>
       )}
@@ -55,4 +64,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default MemberList;

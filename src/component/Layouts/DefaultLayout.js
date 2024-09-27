@@ -4,6 +4,8 @@ import Sidebar from "../sidebar";
 import Header from "../Header";
 
 export default function DefaultLayout({
+  isMember,
+  profile,
   children,
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -12,13 +14,21 @@ export default function DefaultLayout({
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Sidebar 
+        sidebarOpen={sidebarOpen}
+         setSidebarOpen={setSidebarOpen} 
+         isMember={isMember}
+         />
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
           {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Header
+            profile={profile}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}

@@ -1,22 +1,25 @@
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/router';
+import { getProfile } from '../controllers/user/profile'
+
 
 const useAuth = () => {
- 
-  const tokenVilidity = (router) => {
-    const token = sessionStorage.getItem('token');
- 
-    if (!token) {
-      router?.push('/login');
-    } else {
-      console.log('User is logged in');
-      router?.push('/dashboard');       
+
+  const tokenVilidity = (router, userType) => {
+    if (typeof window !== 'undefined') {
+
+      const token = sessionStorage.getItem('token');
+
+      if (!token) {
+        router?.push(`/${userType}/auth/login`);
+      } else {
+        router?.push(`/${userType}/dashboard`);
+      }
     }
   }
-  useEffect(() => {
-    tokenVilidity();
-  }, []);
+  // useEffect(() => {
+  //   tokenVilidity();
+  // }, []);
 
   const logout = (router) => {
 
@@ -31,20 +34,22 @@ const useAuth = () => {
     router?.push('/login');
   };
 
-const getJwtToken = () => {
+  const tokenDecoded = (userType) => {
     try {
-        const token = sessionStorage.getItem('token');
-        if (!token) {
-            throw new Error('No token found');
-        }
-        return token;
+      
+      const token = sessionStorage.getItem('token');
+      // const profileData = getProfile(token, userType)
+      if (!token) {
+        throw new Error('No token found');
+      }
+      return token;
     } catch (error) {
-        console.error('Error retrieving JWT token:', error);
-        return null;
+      console.error('Error retrieving JWT token:', error);
+      return null;
     }
-};
-  
-  return { logout, tokenVilidity, getJwtToken };
+  };
+
+  return { logout, tokenVilidity, tokenDecoded };
 
 };
 

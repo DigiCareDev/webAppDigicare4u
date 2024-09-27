@@ -6,6 +6,8 @@ import Image from "next/image";
 import Logo from "../../../public/images/logo.jpg"
 
 const Header = (props) => {
+  // console.log('props --', props);
+  
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -51,7 +53,7 @@ const Header = (props) => {
             <Image
               width={32}
               height={32}
-              src={Logo}
+              src={props?.profile?.profileImage ? props?.profile?.profileImage : '/avatar.png'}
               alt="Logo"
             />
           </Link>
@@ -106,7 +108,10 @@ const Header = (props) => {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          <DropdownUser
+            profile={props?.profile}
+
+          />
           {/* <!-- User Area --> */}
         </div>
       </div>

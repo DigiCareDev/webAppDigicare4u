@@ -27,7 +27,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/component/Header/DropdownUser.tsx",
+    "src/component/Header/DropdownUser.js",
     "src/component/Header/DropdownNotification.tsx",
     "src/component/Header/DropdownMessage.tsx",
     "src/component/Header/DarkModeSwitcher.tsx",

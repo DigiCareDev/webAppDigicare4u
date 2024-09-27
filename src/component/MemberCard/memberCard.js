@@ -4,7 +4,6 @@ import useAuth from "../../hooks/useAuth";
 import Swal from 'sweetalert2';
 import { useRouter } from "next/router";
 import Image from "next/image";
-import memberImage from "../../../public/images/iconAdmin.png";
 import Pagination from "../Pagination/Pagination"; // Import Pagination component
 
 export default function MemberCard({groupDisplay}) {
@@ -13,8 +12,8 @@ export default function MemberCard({groupDisplay}) {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1); // State for current page
     const membersPerPage = 5; // Display 5 members per page
-    const { getJwtToken } = useAuth();
-    const token = getJwtToken();
+    const { tokenDecoded } = useAuth();
+    const token = tokenDecoded();
     const router = useRouter();
     const [openAccordion, setOpenAccordion] = useState(null);
 
@@ -59,9 +58,7 @@ export default function MemberCard({groupDisplay}) {
 
     if (loading) return <p>Loading Members...</p>;
     if (error) return <p className="text-red">{error}</p>;
-console.log('====================================');
-console.log(members);
-console.log('====================================');
+
     return (
         <>
             <div className="my-4">
@@ -76,7 +73,7 @@ console.log('====================================');
                                 aria-controls={`accordion-open-body-${member._id}`}
                             >
                                 <span className="flex justify-between gap-14 items-stretch">
-                                    <Image src={memberImage} alt="member" height={100} width={150} className="" />
+                                    <Image src={'/avatar.png'} alt="member" height={100} width={150} className="" />
                                     <div className="items-start">
                                         <h3 className="text-xl font-semibold text-gray-800">{member.name}</h3>
                                         <p className="p-2 bg-red m-2 rounded text-white"><strong>Role:</strong> {member.role}</p>
