@@ -25,29 +25,29 @@ export default function MemberCard({groupDisplay}) {
         alert("This is an emergency");
     };
 
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const token = sessionStorage.getItem('token');
-                const response = await axios.get('http://192.168.0.172:8000/user/members', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setMembers(response.data.members);
-            } catch (err) {
-                Swal.fire({
-                    title: "Session expired!",
-                    text: err?.response?.data?.response,
-                    icon: "error"
-                });
-                router.push('/login');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchMembers();
-    }, []);
+    // useEffect(() => {
+    //     const fetchMembers = async () => {
+    //         try {
+    //             const token = sessionStorage.getItem('token');
+    //             const response = await axios.get('http://192.168.0.172:8000/user/members', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setMembers(response.data.members);
+    //         } catch (err) {
+    //             Swal.fire({
+    //                 title: "Session expired!",
+    //                 text: err?.response?.data?.response,
+    //                 icon: "error"
+    //             });
+    //             router.push('/login');
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchMembers();
+    // }, []);
 
     // Calculate the members to display on the current page
     const indexOfLastMember = currentPage * membersPerPage;

@@ -9,7 +9,9 @@ import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import { devURL } from "../../../../contsants/endPoints";
 import { fetchUserProfile } from "../../../controllers/user/profile";
-import { useUserProfile } from '../../../controllers/user/profile'; 
+import { useUserProfile } from '../../../controllers/user/profile';
+import Track from "../../../component/tracking";
+import Track_v1 from "../../../component/tracking_v1";
 
 
 const Dashboard = () => {
@@ -19,13 +21,15 @@ const Dashboard = () => {
 
   return (
     <DefaultLayout
-    profile={userProfile?.user}
+      profile={userProfile?.user}
     >
       {userProfile ? (
         <>
           {/* <GoogleMaps /> */}
           <Tabs />
           <MemberCard />
+          <Track />
+          <Track_v1 />
         </>
       ) : (
         <p>No profile data available</p>

@@ -1,6 +1,14 @@
 import React from "react";
+import { useRouter } from "next/router"; // Import useRouter from Next.js
 
 export const Table = ({ userMemberData }) => {
+  const router = useRouter(); // Initialize router
+
+  // Function to handle row click and navigate to detail screen
+  const handleRowClick = (memberId) => {
+    router.push(`/user/members/details?memberId=${memberId}`); // Navigate to details page with memberId as a query parameter
+  };
+
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -11,6 +19,7 @@ export const Table = ({ userMemberData }) => {
             <th scope="col" className="px-6 py-3">Role</th>
             <th scope="col" className="px-6 py-3">Mobile</th>
             <th scope="col" className="px-6 py-3">Verification status</th>
+            {/* Uncomment the next line if you want to display the Last Location Update column */}
             {/* <th scope="col" className="px-6 py-3">Last Location Update</th> */}
           </tr>
         </thead>
@@ -19,7 +28,8 @@ export const Table = ({ userMemberData }) => {
             userMemberData.map((member) => (
               <tr
                 key={member._id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer" // Add cursor-pointer class for better UX
+                onClick={() => handleRowClick(member._id)} // Add onClick handler to the row
               >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {member.name}

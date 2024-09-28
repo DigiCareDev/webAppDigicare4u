@@ -8,11 +8,11 @@ import { Table } from "../../../../component/table";
 
 const MemberList = () => {
   const { isPending, error, userProfile } = useUserProfile();
-  const {  userMembers } = useUserMembers()
+  const { userMembers } = useUserMembers()
 
 
 
-console.log(userMembers);
+  console.log('--=',userMembers);
 
 
 

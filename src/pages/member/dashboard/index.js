@@ -5,19 +5,18 @@ import MemberCard from "../../../component/MemberCard/memberCard";
 import Tabs from "../../../component/Tabs/tabs";
 import { useRouter } from "next/router";
 import { getMemberProfile } from "../../../controllers/member/profile";
-import useAuth from "../../../hooks/useAuth";
+import MemberTrack from '../../../component/memberTracking'
+
 
 const Dashboard = () => {
   const router = useRouter();
-  const { tokenVilidity } = useAuth()
-  // tokenVilidity(router, 'member')
   const [profileData, setProfileData] = useState(null); // State to hold the profile data
   const [loading, setLoading] = useState(true); // State for loading status
 
   const fetchProfile = async () => {
     try {
       const response = await getMemberProfile()
-      console.log('resps --------<', response);
+      // console.log('resps --------<', response);
 
       setProfileData(response?.data?.user); // Assuming response contains data
     } catch (error) {
@@ -44,9 +43,10 @@ const Dashboard = () => {
         <p>Loading profile...</p>
       ) : profileData ? (
         <>
-          <GoogleMaps />
+          {/* <GoogleMaps /> */}
           <Tabs />
-          <MemberCard />
+          {/* <MemberCard /> */}
+          <MemberTrack/>
         </>
       ) : (
         <p>No profile data available</p>

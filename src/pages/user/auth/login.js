@@ -11,7 +11,7 @@ const Login = () => {
     const router = useRouter();
     //=-=========================
     const { tokenVilidity } = useAuth()
-    tokenVilidity(router, 'user')
+    // tokenVilidity(router, 'user')
     //=-=========================
 
     const [email, setEmail] = useState('');
