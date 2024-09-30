@@ -11,7 +11,7 @@ import { devURL } from "../../../../contsants/endPoints";
 import { fetchUserProfile } from "../../../controllers/user/profile";
 import { useUserProfile } from '../../../controllers/user/profile';
 import Track from "../../../component/tracking";
-import Track_v1 from "../../../component/tracking_v1";
+import Track_v1 from "../../../component/tracking";
 
 
 const Dashboard = () => {
